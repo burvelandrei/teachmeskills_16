@@ -10,11 +10,17 @@ class Book_table:
             "book", metadata, autoload_replace=True, autoload_with=self.engine
         )
 
-    def Insert(self, id: int, title: str, publication_year: int, author_id: int, genre_id:int):
+    def Insert(self, title: str, publication_year: int, author_id: int, genre_id: int):
+        """
+        Добавляет записи в таблицу book.
+        """
         try:
             conn = self.engine.connect()
             ins = insert(self.Book).values(
-                id=id, title=title, publication_year=publication_year, author_id=author_id, genre_id=genre_id
+                title=title,
+                publication_year=publication_year,
+                author_id=author_id,
+                genre_id=genre_id,
             )
             conn.execute(ins)
             conn.commit()
@@ -27,6 +33,9 @@ class Book_table:
             self.engine.dispose()
 
     def Select_book_by_title(self, title: str) -> list[set]:
+        """
+        Получаем записи по title из таблицы book в виде списка с кортежами
+        """
         conn = self.engine.connect()
         try:
             s = select(self.Book).where(self.Book.c.title == title)
@@ -43,6 +52,9 @@ class Book_table:
             print(str(e))
 
     def Update_title(self, title: str, new_title: str):
+        """
+        Метод изменения данных в колонке title
+        """
         conn = self.engine.connect()
         try:
             s = (
@@ -60,12 +72,15 @@ class Book_table:
             self.engine.dispose()
             print(str(e))
 
-    def Update_publication_year(self, publication_year: int, new_publication_year: int):
+    def Update_publication_year_by_title(self, title: str, new_publication_year: int):
+        """
+        Метод изменения данных в колонке publication_year
+        """
         conn = self.engine.connect()
         try:
             s = (
                 update(self.Book)
-                .where(self.Book.c.publication_year == publication_year)
+                .where(self.Book.c.title == title)
                 .values(publication_year=new_publication_year)
             )
             conn.execute(s)
@@ -79,6 +94,9 @@ class Book_table:
             print(str(e))
 
     def Delete_book_by_id(self, id: int):
+        """
+        Удаляет запись по id
+        """
         conn = self.engine.connect()
         try:
             s = delete(self.Book).where(self.Book.c.id == id)
@@ -93,6 +111,9 @@ class Book_table:
             print(str(e))
 
     def Delete_book_by_title(self, title: str):
+        """
+        Удаляет запись по title
+        """
         conn = self.engine.connect()
         try:
             s = delete(self.Book).where(self.Book.c.title == title)

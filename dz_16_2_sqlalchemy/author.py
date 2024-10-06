@@ -10,12 +10,13 @@ class Author_table:
             "author", metadata, autoload_replace=True, autoload_with=self.engine
         )
 
-    def Insert(self, id: int, first_name: str, last_name: str):
+    def Insert(self, first_name: str, last_name: str):
+        """
+        Добавляет записи в таблицу author.
+        """
         try:
             conn = self.engine.connect()
-            ins = insert(self.Author).values(
-                id=id, first_name=first_name, last_name=last_name
-            )
+            ins = insert(self.Author).values(first_name=first_name, last_name=last_name)
             conn.execute(ins)
             conn.commit()
             conn.close()
@@ -27,6 +28,9 @@ class Author_table:
             self.engine.dispose()
 
     def Select_author_first_name(self, first_name: str) -> list[set]:
+        """
+        Получаем записи по first_name из таблицы author в виде списка с кортежами
+        """
         conn = self.engine.connect()
         try:
             s = select(self.Author).where(self.Author.c.first_name == first_name)
@@ -43,6 +47,9 @@ class Author_table:
             print(str(e))
 
     def Select_author_last_name(self, last_name: str) -> list[set]:
+        """
+        Получаем записи по last_name из таблицы author в виде списка с кортежами
+        """
         conn = self.engine.connect()
         try:
             s = select(self.Author).where(self.Author.c.last_name == last_name)
@@ -59,6 +66,9 @@ class Author_table:
             print(str(e))
 
     def Update_first_name_by_id(self, id: int, new_first_name: str):
+        """
+        Метод изменения данных в колонке first_name
+        """
         conn = self.engine.connect()
         try:
             s = (
@@ -77,6 +87,9 @@ class Author_table:
             print(str(e))
 
     def Update_last_name_by_id(self, id: int, new_last_name: str):
+        """
+        Метод изменения данных в колонке last_name
+        """
         conn = self.engine.connect()
         try:
             s = (
@@ -95,6 +108,9 @@ class Author_table:
             print(str(e))
 
     def Delete_author_by_id(self, id: int):
+        """
+        Удаляет запись по id
+        """
         conn = self.engine.connect()
         try:
             s = delete(self.Author).where(self.Author.c.id == id)

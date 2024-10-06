@@ -10,10 +10,13 @@ class Genre_table:
             "genre", metadata, autoload_replace=True, autoload_with=self.engine
         )
 
-    def Insert(self, id: int, name: str):
+    def Insert(self, name: str):
+        """
+        Добавляет записи в таблицу genre.
+        """
         try:
             conn = self.engine.connect()
-            ins = insert(self.Genre).values(id=id, name=name)
+            ins = insert(self.Genre).values(name=name)
             conn.execute(ins)
             conn.commit()
             conn.close()
@@ -25,6 +28,9 @@ class Genre_table:
             self.engine.dispose()
 
     def Select_genre(self, name: str) -> list[set]:
+        """
+        Получаем записи по name из таблицы genre в виде списка с кортежами
+        """
         conn = self.engine.connect()
         try:
             s = select(self.Genre).where(self.Genre.c.name == name)
@@ -41,12 +47,15 @@ class Genre_table:
             print(str(e))
 
     def Update_name(self, name: str, new_name: str):
+        """
+        Метод изменения данных в колонке name
+        """
         conn = self.engine.connect()
         try:
             s = (
                 update(self.Genre)
                 .where(self.Genre.c.name == name)
-                .values(first_name=new_name)
+                .values(name=new_name)
             )
             conn.execute(s)
             conn.commit()
@@ -59,6 +68,9 @@ class Genre_table:
             print(str(e))
 
     def Delete_genre(self, name: str):
+        """
+        Удаляет запись по name
+        """
         conn = self.engine.connect()
         try:
             s = delete(self.Genre).where(self.Genre.c.name == name)
