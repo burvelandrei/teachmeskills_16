@@ -94,7 +94,7 @@ inner join book on author.id = book.author_id
 where author.first_name = 'Александр' and author.last_name = 'Дюма';
 
 
--- Поиск книг по жанру 
+-- Поиск книг по жанру
 select genre.name as genre_name,
 	book.title as title,
 	author.first_name as first_name,
@@ -103,3 +103,33 @@ from genre
 inner join book on genre.id = book.genre_id
 inner join author on author.id = book.author_id
 where genre."name"  = 'Драма';
+
+
+-- Поиск книг по жанру по частичному совпадению
+select genre.name as genre_name,
+	book.title as title,
+	author.first_name as first_name,
+	author.last_name  as last_name
+from genre
+inner join book on genre.id = book.genre_id
+inner join author on author.id = book.author_id
+where genre."name"  like '%Р%';
+
+
+-- Поиск книг по имени автора по частичному совпадению
+select author.first_name as first_name,
+	author.last_name as last_name,
+	book.title as title
+from author
+inner join book on author.id = book.author_id
+where author.first_name like '%А%';
+
+
+-- Поиск книг по частичному наименованию
+select book.title as book,
+	book.publication_year as publication_year,
+	author.first_name as author_first_name,
+	author.last_name as author_last_name
+from book
+inner join author on author.id = book.author_id
+where book.title like '%Двадцать%';
