@@ -1,5 +1,6 @@
 from sqlalchemy import insert, select, update, MetaData, Table, delete
 from database import engine
+from models import Book, Author
 
 
 class Genre_table:
@@ -34,6 +35,30 @@ class Genre_table:
         conn = self.engine.connect()
         try:
             s = select(self.Genre).where(self.Genre.c.name == name)
+            re = conn.execute(s)
+            result = re.fetchall()
+            conn.commit()
+            conn.close()
+            self.engine.dispose()
+            return result
+        except Exception as e:
+            conn.rollback()
+            conn.commit()
+            self.engine.dispose()
+            print(str(e))
+
+    def Select_book_by_genre(self, name: str) -> list[set]:
+        """
+        Получаем title из book по genre в виде списка с кортежами
+        """
+        conn = self.engine.connect()
+        try:
+            s = (
+                select(self.Genre, Book.title, Author.first_name, Author.last_name)
+                .where(self.Genre.c.name == name)
+                .join(Book, self.Genre.c.id == Book.genre_id)
+                .join(Author, Author.id == Book.author_id)
+            )
             re = conn.execute(s)
             result = re.fetchall()
             conn.commit()
@@ -87,4 +112,4 @@ class Genre_table:
 
 if __name__ == "__main__":
     s = Genre_table()
-    s.Insert(1, "Драма")
+    print(s.Select_book_by_genre("Научная фантастика"))

@@ -1,5 +1,6 @@
 from sqlalchemy import insert, select, update, MetaData, Table, delete
 from database import engine
+from models import Book
 
 
 class Author_table:
@@ -53,6 +54,32 @@ class Author_table:
         conn = self.engine.connect()
         try:
             s = select(self.Author).where(self.Author.c.last_name == last_name)
+            re = conn.execute(s)
+            result = re.fetchall()
+            conn.commit()
+            conn.close()
+            self.engine.dispose()
+            return result
+        except Exception as e:
+            conn.rollback()
+            conn.commit()
+            self.engine.dispose()
+            print(str(e))
+
+    def Select_book_by_author(self, first_name: str, last_name: str) -> list[set]:
+        """
+        Получаем title из book по first_name и last_name в виде списка с кортежами
+        """
+        conn = self.engine.connect()
+        try:
+            s = (
+                select(self.Author, Book.title)
+                .where(
+                    self.Author.c.first_name == first_name
+                    and self.Author.c.last_name == last_name
+                )
+                .join(Book, self.Author.c.id == Book.author_id)
+            )
             re = conn.execute(s)
             result = re.fetchall()
             conn.commit()
@@ -127,4 +154,4 @@ class Author_table:
 
 if __name__ == "__main__":
     s = Author_table()
-    s.Update_first_name_by_id(id=1, new_first_name="Алекс")
+    print(s.Select_book_by_author(first_name="Жюль", last_name="Верн"))

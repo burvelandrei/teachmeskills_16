@@ -1,5 +1,6 @@
 from sqlalchemy import insert, select, update, MetaData, Table, delete
 from database import engine
+from models import Author
 
 
 class Book_table:
@@ -39,6 +40,29 @@ class Book_table:
         conn = self.engine.connect()
         try:
             s = select(self.Book).where(self.Book.c.title == title)
+            re = conn.execute(s)
+            result = re.fetchall()
+            conn.commit()
+            conn.close()
+            self.engine.dispose()
+            return result
+        except Exception as e:
+            conn.rollback()
+            conn.commit()
+            self.engine.dispose()
+            print(str(e))
+
+    def Select_book_by_partial_title(self, particulate: str):
+        """
+        Получаем записи по частичному совпадению title из таблицы book и author в виде списка с кортежами
+        """
+        conn = self.engine.connect()
+        try:
+            s = (
+                select(self.Book, Author.first_name, Author.last_name)
+                .filter(self.Book.c.title.like(f"%{particulate}%"))
+                .join(Author, Author.id == self.Book.c.author_id)
+            )
             re = conn.execute(s)
             result = re.fetchall()
             conn.commit()
@@ -130,4 +154,4 @@ class Book_table:
 
 if __name__ == "__main__":
     s = Book_table()
-    s.Insert(1, "Двадцать лет спустя", 1845, 1, 1)
+    print(s.Select_book_by_partial_title("вадц"))

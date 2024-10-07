@@ -28,6 +28,9 @@ def main():
             "10. Удалить запись из таблицы author\n"
             "11. Удалить запись из таблицы genre\n"
             "12. Удалить запись из таблицы book\n"
+            "13. Поиск книг по автору\n"
+            "14. Поиск книг по жанру\n"
+            "15. Поиск книг по частичному совпадению заголовка\n"
         )
 
         choice = input("Введите пункт меню: ")
@@ -147,6 +150,19 @@ def main():
                     Book.Delete_book_by_title(title)
                 else:
                     print("\nТакого подпункта нет! Побробуй ввести ещё раз.")
+
+        elif choice == "13":
+            first_name = input("Введите имя автора: ")
+            last_name = input("Введите фамилию автора: ")
+            print(Author.Select_book_by_author(first_name, last_name))
+
+        elif choice == "14":
+            name = input("Введите наименование жанра: ")
+            print(Genre.Select_book_by_genre(name))
+
+        elif choice == "15":
+            particulate = input("Введите часть заголовка: ")
+            print(Book.Select_book_by_partial_title(particulate))
 
         else:
             print("\nТакого пункта нет! Побробуй ввести ещё раз.")
