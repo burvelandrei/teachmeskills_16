@@ -15,7 +15,7 @@ engine = create_engine(
 )
 
 
-def create_tables():
+def create_tables_orm():
     """
     Функция для создания всех таблиц.
     """

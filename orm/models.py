@@ -7,7 +7,7 @@ Base = declarative_base()
 
 
 # Определям модель таблицы author
-class Author(Base):
+class Author_orm(Base):
     __tablename__ = "author"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -16,7 +16,7 @@ class Author(Base):
 
 
 # Определям модель таблицы genre
-class Genre(Base):
+class Genre_orm(Base):
     __tablename__ = "genre"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -24,11 +24,11 @@ class Genre(Base):
 
 
 # Определям модель таблицы book
-class Book(Base):
+class Book_orm(Base):
     __tablename__ = "book"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(VARCHAR(50), nullable=False)
     publication_year = Column(Integer)
-    author_id = Column(Integer, ForeignKey(Author.id, ondelete="CASCADE"))
-    genre_id = Column(Integer, ForeignKey(Genre.id, ondelete="CASCADE"))
+    author_id = Column(Integer, ForeignKey(Author_orm.id, ondelete="CASCADE"))
+    genre_id = Column(Integer, ForeignKey(Genre_orm.id, ondelete="CASCADE"))

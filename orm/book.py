@@ -1,9 +1,9 @@
 from sqlalchemy import insert, select, update, MetaData, Table, delete
 from orm.database import engine
-from orm.models import Author
+from orm.models import Author_orm
 
 
-class Book_table:
+class Book_table_orm:
     def __init__(self):
         self.engine = engine
         metadata = MetaData()
@@ -59,9 +59,9 @@ class Book_table:
         conn = self.engine.connect()
         try:
             s = (
-                select(self.Book, Author.first_name, Author.last_name)
+                select(self.Book, Author_orm.first_name, Author_orm.last_name)
                 .filter(self.Book.c.title.like(f"%{particulate}%"))
-                .join(Author, Author.id == self.Book.c.author_id)
+                .join(Author_orm, Author_orm.id == self.Book.c.author_id)
             )
             re = conn.execute(s)
             result = re.fetchall()
@@ -153,5 +153,5 @@ class Book_table:
 
 
 if __name__ == "__main__":
-    s = Book_table()
+    s = Book_table_orm()
     print(s.select_book_by_partial_title("вадц"))

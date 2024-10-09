@@ -1,9 +1,9 @@
 from sqlalchemy import insert, select, update, MetaData, Table, delete
 from orm.database import engine
-from orm.models import Book
+from orm.models import Book_orm
 
 
-class Author_table:
+class Author_table_orm:
     def __init__(self):
         self.engine = engine
         metadata = MetaData()
@@ -73,12 +73,12 @@ class Author_table:
         conn = self.engine.connect()
         try:
             s = (
-                select(self.Author, Book.title)
+                select(self.Author, Book_orm.title)
                 .where(
                     self.Author.c.first_name == first_name
                     and self.Author.c.last_name == last_name
                 )
-                .join(Book, self.Author.c.id == Book.author_id)
+                .join(Book_orm, self.Author.c.id == Book_orm.author_id)
             )
             re = conn.execute(s)
             result = re.fetchall()
@@ -153,5 +153,5 @@ class Author_table:
 
 
 if __name__ == "__main__":
-    s = Author_table()
+    s = Author_table_orm()
     print(s.select_book_by_author(first_name="Жюль", last_name="Верн"))

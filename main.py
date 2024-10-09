@@ -1,16 +1,16 @@
-from orm.database import create_tables
-from orm.author import Author_table
-from orm.genre import Genre_table
-from orm.book import Book_table
+from orm.database import create_tables_orm
+from orm.author import Author_table_orm
+from orm.genre import Genre_table_orm
+from orm.book import Book_table_orm
 
 
 def main():
     """Функция для вывода меню и выбора действий. Точка входа в программу."""
     print("Программа для работы с БД через SQLAlchemy")
-    create_tables()
-    Author = Author_table()
-    Genre = Genre_table()
-    Book = Book_table()
+    create_tables_orm()
+    Author = Author_table_orm()
+    Genre = Genre_table_orm()
+    Book = Book_table_orm()
     check = True
     while check:
         print(

@@ -1,9 +1,9 @@
 from sqlalchemy import insert, select, update, MetaData, Table, delete
 from orm.database import engine
-from orm.models import Book, Author
+from orm.models import Book_orm, Author_orm
 
 
-class Genre_table:
+class Genre_table_orm:
     def __init__(self):
         self.engine = engine
         metadata = MetaData()
@@ -54,10 +54,10 @@ class Genre_table:
         conn = self.engine.connect()
         try:
             s = (
-                select(self.Genre, Book.title, Author.first_name, Author.last_name)
+                select(self.Genre, Book_orm.title, Author_orm.first_name, Author_orm.last_name)
                 .where(self.Genre.c.name == name)
-                .join(Book, self.Genre.c.id == Book.genre_id)
-                .join(Author, Author.id == Book.author_id)
+                .join(Book_orm, self.Genre.c.id == Book_orm.genre_id)
+                .join(Author_orm, Author_orm.id == Book_orm.author_id)
             )
             re = conn.execute(s)
             result = re.fetchall()
@@ -111,5 +111,5 @@ class Genre_table:
 
 
 if __name__ == "__main__":
-    s = Genre_table()
+    s = Genre_table_orm()
     print(s.select_book_by_genre("Научная фантастика"))
