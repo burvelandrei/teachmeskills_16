@@ -1,23 +1,28 @@
 from sqlalchemy import insert, select, update, MetaData, Table, delete
-from database import engine
-from models import Book
+from orm.database import engine
+from orm.models import Author
 
 
-class Author_table:
+class Book_table:
     def __init__(self):
         self.engine = engine
         metadata = MetaData()
-        self.Author = Table(
-            "author", metadata, autoload_replace=True, autoload_with=self.engine
+        self.Book = Table(
+            "book", metadata, autoload_replace=True, autoload_with=self.engine
         )
 
-    def Insert(self, first_name: str, last_name: str):
+    def Insert(self, title: str, publication_year: int, author_id: int, genre_id: int):
         """
-        Добавляет записи в таблицу author.
+        Добавляет записи в таблицу book.
         """
         try:
             conn = self.engine.connect()
-            ins = insert(self.Author).values(first_name=first_name, last_name=last_name)
+            ins = insert(self.Book).values(
+                title=title,
+                publication_year=publication_year,
+                author_id=author_id,
+                genre_id=genre_id,
+            )
             conn.execute(ins)
             conn.commit()
             conn.close()
@@ -28,13 +33,13 @@ class Author_table:
             print(str(e))
             self.engine.dispose()
 
-    def Select_author_first_name(self, first_name: str) -> list[set]:
+    def Select_book_by_title(self, title: str) -> list[set]:
         """
-        Получаем записи по first_name из таблицы author в виде списка с кортежами
+        Получаем записи по title из таблицы book в виде списка с кортежами
         """
         conn = self.engine.connect()
         try:
-            s = select(self.Author).where(self.Author.c.first_name == first_name)
+            s = select(self.Book).where(self.Book.c.title == title)
             re = conn.execute(s)
             result = re.fetchall()
             conn.commit()
@@ -47,38 +52,16 @@ class Author_table:
             self.engine.dispose()
             print(str(e))
 
-    def Select_author_last_name(self, last_name: str) -> list[set]:
+    def Select_book_by_partial_title(self, particulate: str):
         """
-        Получаем записи по last_name из таблицы author в виде списка с кортежами
-        """
-        conn = self.engine.connect()
-        try:
-            s = select(self.Author).where(self.Author.c.last_name == last_name)
-            re = conn.execute(s)
-            result = re.fetchall()
-            conn.commit()
-            conn.close()
-            self.engine.dispose()
-            return result
-        except Exception as e:
-            conn.rollback()
-            conn.commit()
-            self.engine.dispose()
-            print(str(e))
-
-    def Select_book_by_author(self, first_name: str, last_name: str) -> list[set]:
-        """
-        Получаем title из book по first_name и last_name в виде списка с кортежами
+        Получаем записи по частичному совпадению title из таблицы book и author в виде списка с кортежами
         """
         conn = self.engine.connect()
         try:
             s = (
-                select(self.Author, Book.title)
-                .where(
-                    self.Author.c.first_name == first_name
-                    and self.Author.c.last_name == last_name
-                )
-                .join(Book, self.Author.c.id == Book.author_id)
+                select(self.Book, Author.first_name, Author.last_name)
+                .filter(self.Book.c.title.like(f"%{particulate}%"))
+                .join(Author, Author.id == self.Book.c.author_id)
             )
             re = conn.execute(s)
             result = re.fetchall()
@@ -92,16 +75,16 @@ class Author_table:
             self.engine.dispose()
             print(str(e))
 
-    def Update_first_name_by_id(self, id: int, new_first_name: str):
+    def Update_title(self, title: str, new_title: str):
         """
-        Метод изменения данных в колонке first_name
+        Метод изменения данных в колонке title
         """
         conn = self.engine.connect()
         try:
             s = (
-                update(self.Author)
-                .where(self.Author.c.id == id)
-                .values(first_name=new_first_name)
+                update(self.Book)
+                .where(self.Book.c.title == title)
+                .values(title=new_title)
             )
             conn.execute(s)
             conn.commit()
@@ -113,16 +96,16 @@ class Author_table:
             self.engine.dispose()
             print(str(e))
 
-    def Update_last_name_by_id(self, id: int, new_last_name: str):
+    def Update_publication_year_by_title(self, title: str, new_publication_year: int):
         """
-        Метод изменения данных в колонке last_name
+        Метод изменения данных в колонке publication_year
         """
         conn = self.engine.connect()
         try:
             s = (
-                update(self.Author)
-                .where(self.Author.c.id == id)
-                .values(last_name=new_last_name)
+                update(self.Book)
+                .where(self.Book.c.title == title)
+                .values(publication_year=new_publication_year)
             )
             conn.execute(s)
             conn.commit()
@@ -134,13 +117,30 @@ class Author_table:
             self.engine.dispose()
             print(str(e))
 
-    def Delete_author_by_id(self, id: int):
+    def Delete_book_by_id(self, id: int):
         """
         Удаляет запись по id
         """
         conn = self.engine.connect()
         try:
-            s = delete(self.Author).where(self.Author.c.id == id)
+            s = delete(self.Book).where(self.Book.c.id == id)
+            conn.execute(s)
+            conn.commit()
+            conn.close()
+            self.engine.dispose()
+        except Exception as e:
+            conn.rollback()
+            conn.commit()
+            self.engine.dispose()
+            print(str(e))
+
+    def Delete_book_by_title(self, title: str):
+        """
+        Удаляет запись по title
+        """
+        conn = self.engine.connect()
+        try:
+            s = delete(self.Book).where(self.Book.c.title == title)
             conn.execute(s)
             conn.commit()
             conn.close()
@@ -153,5 +153,5 @@ class Author_table:
 
 
 if __name__ == "__main__":
-    s = Author_table()
-    print(s.Select_book_by_author(first_name="Жюль", last_name="Верн"))
+    s = Book_table()
+    print(s.Select_book_by_partial_title("вадц"))

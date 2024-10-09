@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from config_db import DB, load_config
-from models import Base
+from orm.models import Base
 
 # Загружаем параметры базы данных
 config_db: DB = load_config()

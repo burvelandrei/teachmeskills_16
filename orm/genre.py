@@ -1,6 +1,6 @@
 from sqlalchemy import insert, select, update, MetaData, Table, delete
-from database import engine
-from models import Book, Author
+from orm.database import engine
+from orm.models import Book, Author
 
 
 class Genre_table:

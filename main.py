@@ -1,7 +1,7 @@
-from database import create_tables
-from author import Author_table
-from genre import Genre_table
-from book import Book_table
+from orm.database import create_tables
+from orm.author import Author_table
+from orm.genre import Genre_table
+from orm.book import Book_table
 
 
 def main():
