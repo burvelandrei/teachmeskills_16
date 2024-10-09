@@ -11,7 +11,7 @@ class Book_table_raw:
         cursor.execute(
             f"""
             insert into book(title, publication_year, author_id, genre_id)
-            values ('{title}й', {publication_year}, {author_id}, {genre_id});"""
+            values ('{title}', {publication_year}, {author_id}, {genre_id});"""
         )
 
     @db_connection
