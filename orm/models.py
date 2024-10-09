@@ -1,5 +1,6 @@
 from sqlalchemy import Table, Column, Integer, VARCHAR, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
+from orm.database import engine
 
 
 # Базовый класс для всех моделей
@@ -32,3 +33,12 @@ class Book_orm(Base):
     publication_year = Column(Integer)
     author_id = Column(Integer, ForeignKey(Author_orm.id, ondelete="CASCADE"))
     genre_id = Column(Integer, ForeignKey(Genre_orm.id, ondelete="CASCADE"))
+
+
+
+def create_tables_orm():
+    """
+    Функция для создания всех таблиц.
+    """
+    Base.metadata.create_all(engine)
+    engine.echo = False

@@ -1,7 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from config_db import DB, load_config
-from orm.models import Base
 
 # Загружаем параметры базы данных
 config_db: DB = load_config()
@@ -13,11 +12,3 @@ engine = create_engine(
     echo=False,
     pool_recycle=2000,
 )
-
-
-def create_tables_orm():
-    """
-    Функция для создания всех таблиц.
-    """
-    Base.metadata.create_all(engine)
-    engine.echo = False

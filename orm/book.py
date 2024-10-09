@@ -52,7 +52,7 @@ class Book_table_orm:
             self.engine.dispose()
             print(str(e))
 
-    def select_book_by_partial_title(self, particulate: str):
+    def select_book_by_partial_title(self, particulate: str)-> list[set]:
         """
         Получаем записи по частичному совпадению title из таблицы book и author в виде списка с кортежами
         """
