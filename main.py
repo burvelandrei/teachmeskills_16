@@ -40,16 +40,16 @@ def main():
         elif choice == "1":
             first_name = input("Введите имя: ")
             last_name = input("Введите фамилию: ")
-            Author.Insert(first_name, last_name)
+            Author.insert(first_name, last_name)
         elif choice == "2":
             name = input("Введите наименование жанра: ")
-            Genre.Insert(name)
+            Genre.insert(name)
         elif choice == "3":
             title = input("Введите заголовок книги: ")
             publication_year = int(input("Введите год публикации книги: "))
             author_id = int(input("Введите id автора: "))
             genre_id = int(input("Введите id жанра: "))
-            Book.Insert(title, publication_year, author_id, genre_id)
+            Book.insert(title, publication_year, author_id, genre_id)
         elif choice == "4":
             while True:
                 print(
@@ -62,20 +62,20 @@ def main():
                     break
                 elif sub_choice == "1":
                     first_name = input("Введите имя для поиска: ")
-                    print(Author.Select_author_first_name(first_name))
+                    print(Author.select_author_first_name(first_name))
                 elif sub_choice == "2":
                     last_name = input("Введите фамилию для поиска: ")
-                    print(Author.Select_author_last_name(last_name))
+                    print(Author.select_author_last_name(last_name))
                 else:
                     print("\nТакого подпункта нет! Побробуй ввести ещё раз.")
 
         elif choice == "5":
             name = name = input("Введите наименование жанра: ")
-            print(Genre.Select_genre(name))
+            print(Genre.select_genre(name))
 
         elif choice == "6":
             title = input("Введите заголовок книги: ")
-            print(Book.Select_book_by_title(title))
+            print(Book.select_book_by_title(title))
 
         elif choice == "7":
             while True:
@@ -90,18 +90,18 @@ def main():
                 elif sub_choice == "1":
                     id = int(input("Введите id автора: "))
                     new_first_name = input("Введите новое имя: ")
-                    Author.Update_first_name_by_id(id, new_first_name)
+                    Author.update_first_name_by_id(id, new_first_name)
                 elif sub_choice == "2":
                     id = int(input("Введите id автора: "))
                     new_last_name = input("Введите новую фамилию: ")
-                    Author.Update_last_name_by_id(id, new_last_name)
+                    Author.update_last_name_by_id(id, new_last_name)
                 else:
                     print("\nТакого подпункта нет! Побробуй ввести ещё раз.")
 
         elif choice == "8":
             name = input("Введите жанр для изменения: ")
             nem_name = input("Введите новое наименование жанра: ")
-            Genre.Update_name(name, nem_name)
+            Genre.update_name(name, nem_name)
 
         elif choice == "9":
             while True:
@@ -116,21 +116,21 @@ def main():
                 elif sub_choice == "1":
                     title = input("Введите заголовок для изменения: ")
                     new_title = input("Введите новый заголовок: ")
-                    Book.Update_title(title, new_title)
+                    Book.update_title(title, new_title)
                 elif sub_choice == "2":
                     title = input("Введите заголовок для изменения года: ")
                     new_publication_year = int(input("Введите новый год публикации: "))
-                    Book.Update_publication_year_by_title(title, new_publication_year)
+                    Book.update_publication_year_by_title(title, new_publication_year)
                 else:
                     print("\nТакого подпункта нет! Побробуй ввести ещё раз.")
 
         elif choice == "10":
             id = int(input("Введите id для удаления записи: "))
-            Author.Delete_author_by_id(id)
+            Author.delete_author_by_id(id)
 
         elif choice == "11":
             name = input("Введите наименование жанра для удаления: ")
-            Genre.Delete_genre(name)
+            Genre.delete_genre(name)
 
         elif choice == "12":
             while True:
@@ -144,25 +144,25 @@ def main():
                     break
                 elif sub_choice == "1":
                     id = int(input("Введите id для удаления записи: "))
-                    Book.Delete_book_by_id(id)
+                    Book.delete_book_by_id(id)
                 elif sub_choice == "2":
                     title = input("Введите заголовок для удаления записи: ")
-                    Book.Delete_book_by_title(title)
+                    Book.delete_book_by_title(title)
                 else:
                     print("\nТакого подпункта нет! Побробуй ввести ещё раз.")
 
         elif choice == "13":
             first_name = input("Введите имя автора: ")
             last_name = input("Введите фамилию автора: ")
-            print(Author.Select_book_by_author(first_name, last_name))
+            print(Author.select_book_by_author(first_name, last_name))
 
         elif choice == "14":
             name = input("Введите наименование жанра: ")
-            print(Genre.Select_book_by_genre(name))
+            print(Genre.select_book_by_genre(name))
 
         elif choice == "15":
             particulate = input("Введите часть заголовка: ")
-            print(Book.Select_book_by_partial_title(particulate))
+            print(Book.select_book_by_partial_title(particulate))
 
         else:
             print("\nТакого пункта нет! Побробуй ввести ещё раз.")

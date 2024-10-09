@@ -11,7 +11,7 @@ class Book_table:
             "book", metadata, autoload_replace=True, autoload_with=self.engine
         )
 
-    def Insert(self, title: str, publication_year: int, author_id: int, genre_id: int):
+    def insert(self, title: str, publication_year: int, author_id: int, genre_id: int):
         """
         Добавляет записи в таблицу book.
         """
@@ -33,7 +33,7 @@ class Book_table:
             print(str(e))
             self.engine.dispose()
 
-    def Select_book_by_title(self, title: str) -> list[set]:
+    def select_book_by_title(self, title: str) -> list[set]:
         """
         Получаем записи по title из таблицы book в виде списка с кортежами
         """
@@ -52,7 +52,7 @@ class Book_table:
             self.engine.dispose()
             print(str(e))
 
-    def Select_book_by_partial_title(self, particulate: str):
+    def select_book_by_partial_title(self, particulate: str):
         """
         Получаем записи по частичному совпадению title из таблицы book и author в виде списка с кортежами
         """
@@ -75,7 +75,7 @@ class Book_table:
             self.engine.dispose()
             print(str(e))
 
-    def Update_title(self, title: str, new_title: str):
+    def update_title(self, title: str, new_title: str):
         """
         Метод изменения данных в колонке title
         """
@@ -96,7 +96,7 @@ class Book_table:
             self.engine.dispose()
             print(str(e))
 
-    def Update_publication_year_by_title(self, title: str, new_publication_year: int):
+    def update_publication_year_by_title(self, title: str, new_publication_year: int):
         """
         Метод изменения данных в колонке publication_year
         """
@@ -117,7 +117,7 @@ class Book_table:
             self.engine.dispose()
             print(str(e))
 
-    def Delete_book_by_id(self, id: int):
+    def delete_book_by_id(self, id: int):
         """
         Удаляет запись по id
         """
@@ -134,7 +134,7 @@ class Book_table:
             self.engine.dispose()
             print(str(e))
 
-    def Delete_book_by_title(self, title: str):
+    def delete_book_by_title(self, title: str):
         """
         Удаляет запись по title
         """
@@ -154,4 +154,4 @@ class Book_table:
 
 if __name__ == "__main__":
     s = Book_table()
-    print(s.Select_book_by_partial_title("вадц"))
+    print(s.select_book_by_partial_title("вадц"))

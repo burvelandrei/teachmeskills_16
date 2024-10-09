@@ -11,7 +11,7 @@ class Author_table:
             "author", metadata, autoload_replace=True, autoload_with=self.engine
         )
 
-    def Insert(self, first_name: str, last_name: str):
+    def insert(self, first_name: str, last_name: str):
         """
         Добавляет записи в таблицу author.
         """
@@ -28,7 +28,7 @@ class Author_table:
             print(str(e))
             self.engine.dispose()
 
-    def Select_author_first_name(self, first_name: str) -> list[set]:
+    def select_author_first_name(self, first_name: str) -> list[set]:
         """
         Получаем записи по first_name из таблицы author в виде списка с кортежами
         """
@@ -47,7 +47,7 @@ class Author_table:
             self.engine.dispose()
             print(str(e))
 
-    def Select_author_last_name(self, last_name: str) -> list[set]:
+    def select_author_last_name(self, last_name: str) -> list[set]:
         """
         Получаем записи по last_name из таблицы author в виде списка с кортежами
         """
@@ -66,7 +66,7 @@ class Author_table:
             self.engine.dispose()
             print(str(e))
 
-    def Select_book_by_author(self, first_name: str, last_name: str) -> list[set]:
+    def select_book_by_author(self, first_name: str, last_name: str) -> list[set]:
         """
         Получаем title из book по first_name и last_name в виде списка с кортежами
         """
@@ -92,7 +92,7 @@ class Author_table:
             self.engine.dispose()
             print(str(e))
 
-    def Update_first_name_by_id(self, id: int, new_first_name: str):
+    def update_first_name_by_id(self, id: int, new_first_name: str):
         """
         Метод изменения данных в колонке first_name
         """
@@ -113,7 +113,7 @@ class Author_table:
             self.engine.dispose()
             print(str(e))
 
-    def Update_last_name_by_id(self, id: int, new_last_name: str):
+    def update_last_name_by_id(self, id: int, new_last_name: str):
         """
         Метод изменения данных в колонке last_name
         """
@@ -134,7 +134,7 @@ class Author_table:
             self.engine.dispose()
             print(str(e))
 
-    def Delete_author_by_id(self, id: int):
+    def delete_author_by_id(self, id: int):
         """
         Удаляет запись по id
         """
@@ -154,4 +154,4 @@ class Author_table:
 
 if __name__ == "__main__":
     s = Author_table()
-    print(s.Select_book_by_author(first_name="Жюль", last_name="Верн"))
+    print(s.select_book_by_author(first_name="Жюль", last_name="Верн"))

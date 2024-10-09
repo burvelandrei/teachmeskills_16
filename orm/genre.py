@@ -11,7 +11,7 @@ class Genre_table:
             "genre", metadata, autoload_replace=True, autoload_with=self.engine
         )
 
-    def Insert(self, name: str):
+    def insert(self, name: str):
         """
         Добавляет записи в таблицу genre.
         """
@@ -28,7 +28,7 @@ class Genre_table:
             print(str(e))
             self.engine.dispose()
 
-    def Select_genre(self, name: str) -> list[set]:
+    def select_genre(self, name: str) -> list[set]:
         """
         Получаем записи по name из таблицы genre в виде списка с кортежами
         """
@@ -47,7 +47,7 @@ class Genre_table:
             self.engine.dispose()
             print(str(e))
 
-    def Select_book_by_genre(self, name: str) -> list[set]:
+    def select_book_by_genre(self, name: str) -> list[set]:
         """
         Получаем title из book по genre в виде списка с кортежами
         """
@@ -71,7 +71,7 @@ class Genre_table:
             self.engine.dispose()
             print(str(e))
 
-    def Update_name(self, name: str, new_name: str):
+    def update_name(self, name: str, new_name: str):
         """
         Метод изменения данных в колонке name
         """
@@ -92,7 +92,7 @@ class Genre_table:
             self.engine.dispose()
             print(str(e))
 
-    def Delete_genre(self, name: str):
+    def delete_genre(self, name: str):
         """
         Удаляет запись по name
         """
@@ -112,4 +112,4 @@ class Genre_table:
 
 if __name__ == "__main__":
     s = Genre_table()
-    print(s.Select_book_by_genre("Научная фантастика"))
+    print(s.select_book_by_genre("Научная фантастика"))
