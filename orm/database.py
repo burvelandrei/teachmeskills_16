@@ -11,4 +11,5 @@ engine = create_engine(
     f"""postgresql+psycopg2://{config_db.db_user}:{config_db.db_password}@{config_db.db_host}:{config_db.db_port}/{config_db.db_name}""",
     echo=False,
     pool_recycle=2000,
+    isolation_level="AUTOCOMMIT",
 )
